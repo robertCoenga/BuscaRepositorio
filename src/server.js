@@ -3,11 +3,15 @@ const fs = require('fs');
 const app = express();
 const repositorie = JSON.parse(fs.readFileSync('src/data/repositories_202305081745.json','utf-8'));
 const repos = repositorie.repositories;
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('../swagger_output.json')
 //services
 app.use(express.json());
 
 //Rodar o servidor
-app.listen(3333, ()=> console.log("Server is running"))
+app.listen(3000, ()=> console.log("Server is running"))
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+
 
 app.get('/repos/findByName', (req, res)=>{
     let queryRepoName = req.query.name;
