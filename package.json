@@ -2,10 +2,11 @@
   "name": "buscarepositorio",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "swagger-autogen": "node swagger.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,8 @@
   "homepage": "https://github.com/robertCoenga/BuscaRepositorio#readme",
   "dependencies": {
     "express": "^4.18.2",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "swagger-autogen": "^2.23.1",
+    "swagger-ui-express": "^4.1.4"
   }
 }
