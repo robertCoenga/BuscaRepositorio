@@ -1,55 +1,23 @@
 const express = require("express");
-const fs = require('fs');
+const cors = require("cors");
 const app = express();
-const repositorie = JSON.parse(fs.readFileSync('src/data/repositories_202305081745.json','utf-8'));
-const repos = repositorie.repositories;
-const swaggerUi = require('swagger-ui-express')
-const swaggerFile = require('../swagger_output.json')
-//services
-app.use(express.json());
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('../swagger_output.json');
 
-//Rodar o servidor
+app.use(cors());
+app.use(express.json());
+//Conexão com o banco de dados
+const conn = require("./repositorios/conn");
+conn();
+
+//Serviços
+const routes = require('./servicos/router');
+app.use("/",routes);
+
+//Servidor e Swagger
 app.listen(3000, ()=> console.log("Server is running"))
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 
-app.get('/repos/findByName', (req, res)=>{
-    let queryRepoName = req.query.name;
-
-    if(queryRepoName==null)
-    {
-        return res.status(400).send({"mensagem":"O campo nome é obrigatório!"});
-    }
-    else{
-        let repo = repos.find(resp => resp.name === queryRepoName);       
-        if (repo!=null)
-        {
-            return res.status(200).send(repo);
-        }
-        else
-        {
-            return res.status(404).send({});
-        }
-    }
-})
-app.get('/repos/findById', (req,res)=>{
-    let queryRepoId = req.query.id;
-
-    if(queryRepoId==null)
-    {
-        return res.status(400).send({"mensagem":"O campo nome é obrigatório!"});
-    }
-    else{
-        let repo = repos.find(resp => resp.id === queryRepoId);       
-        if (repo!=null)
-        {
-            return res.status(200).send(repo);
-        }
-        else
-        {
-            return res.status(404).send({});
-        }
-    }
-});
 
 module.exports = app;
