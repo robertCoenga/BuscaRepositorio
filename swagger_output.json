@@ -11,39 +11,37 @@
     "http"
   ],
   "paths": {
-    "/repos/findByName": {
+    "/repos/find": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "name",
+            "name": "nome",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "pagina",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "por_pagina",
             "in": "query",
             "type": "string"
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
+        "responses": {}
       }
     },
-    "/repos/findById": {
+    "/repos/{repoId}": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
-            "in": "query",
+            "name": "repoId",
+            "in": "path",
+            "required": true,
             "type": "string"
           }
         ],
