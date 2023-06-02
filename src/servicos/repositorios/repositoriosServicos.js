@@ -1,4 +1,5 @@
 const repository = require("../../entidades/repository");
+const actor = require("../atores/atoresServicos");
 
 const repositoriosServicos = {
 
@@ -56,7 +57,66 @@ const repositoriosServicos = {
                     res.status(404).send();
                 }
                 else{
-                    res.status(200).send(repoId);
+                    let responseOwner = repoId.map( async (repo) => {
+                        let actorOwner = await actor.findById(repo.owner);
+                        console.log(actorOwner)
+                        return {
+                            "id": repo.id,
+                            "assignable_users": repo.assignable_users,
+                            "code_of_conduct":repo.code_of_conduct,
+                            "created_at": repo.created_at,
+                            "database_id": repo.database_id,
+                            "default_branch": repo.default_branch,
+                            "delete_branch_on_merge": repo.delete_branch_on_merge,
+                            "description": repo.description,
+                            "disk_usage": repo.disk_usage,
+                            "forks": repo.forks,
+                            "has_issues_enabled": repo.has_issues_enabled,
+                            "has_projects_enabled": repo.has_projects_enabled,
+                            "has_wiki_enabled": repo.has_wiki_enabled,
+                            "homepage_url": repo.homepage_url,
+                            "is_archived": repo.is_archived,
+                            "is_blank_issues_enabled": repo.is_blank_issues_enabled,
+                            "is_disabled": repo.is_disabled,
+                            "is_empty": repo.is_empty,
+                            "is_fork": repo.is_fork,
+                            "is_in_organization": repo.is_in_organization,
+                            "is_locked": repo.is_locked,
+                            "is_mirror": repo.is_mirror,
+                            "is_private": repo.is_private,
+                            "is_security_policy_enabled": repo.is_security_policy_enabled,
+                            "is_template": repo.is_template,
+                            "is_user_configuration_repository": repo.is_user_configuration_repository,
+                            "issues": repo.issues,
+                            "labels": repo.labels,
+                            "languages": repo.languages,
+                            "license_info": repo.license_info,
+                            "mentionable_users": repo.mentionable_users,
+                            "merge_commit_allowed": repo.merge_commit_allowed,
+                            "milestones": repo.milestones,
+                            "name": repo.name,
+                            "name_with_owner": repo.name_with_owner,
+                            "open_graph_image_url": repo.open_graph_image_url,
+                            "owner": actorOwner,
+                            "primary_language": repo.primary_language,
+                            "pushed_at": repo.pushed_at,
+                            "pull_requests": repo.pull_requests,
+                            "rebase_merge_allowed": repo.rebase_merge_allowed,
+                            "releases": repo.releases,
+                            "repository_topics": repo.repository_topics,
+                            "squash_merge_allowed": repo.squash_merge_allowed,
+                            "stargazers": repo.stargazers,
+                            "tags": repo.tags,
+                            "updated_at": repo.updated_at,
+                            "url": repo.url,
+                            "uses_custom_open_graph_image": repo.uses_custom_open_graph_image,
+                            "vulnerability_alerts": repo.vulnerability_alerts,
+                            "watchers": repo.watchers
+                        }
+                    })
+                    //console.log( await Promise.all(responseOwner))
+                    res.status(200).json( await Promise.all(responseOwner)); 
+                   
                 }     
             } catch (error) {
                 return res.status(500).send(error);

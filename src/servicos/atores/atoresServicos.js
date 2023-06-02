@@ -3,11 +3,16 @@ const actor = require("../../entidades/actor");
 const atoresServicos={
     findById: async (id) =>
     {
-            const actorId = await repository.find({"id": id});
+        try{
+            const actorId = await actor.find({"id": id});
                 let response = actorId.map( (actor) => {
                     return {"id" : actor.id, "type" : actor.type, "login": actor.login, "avatar_url":actor.avatar_url}
                 })
-                return JSON.parse(response);
+                return response[0];
+            }
+            catch(err){
+                console.log(err)
+            }
    
     }
 }

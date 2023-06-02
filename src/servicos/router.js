@@ -11,7 +11,7 @@ router.get('/repos/find', async (req, res)=>{
     repository.findByName(req,res,queryRepoName,queryPage,queryRepoPage);
 })
 router.get('/repos/:repoId', async (req,res)=>{
-    repository.findById(req,res);
+    await repository.findById(req,res);
 });
 
 module.exports = router;
