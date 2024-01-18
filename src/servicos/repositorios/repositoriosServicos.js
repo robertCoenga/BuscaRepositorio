@@ -5,7 +5,6 @@ const repositoriosServicos = {
 
     findByName: async(req,res,queryRepoName,queryPage,queryRepoPage) =>
     {
-
         if(!queryPage)
         {
             queryPage=1;
@@ -43,9 +42,8 @@ const repositoriosServicos = {
     },
     findById: async (req,res) =>
     {
-        let queryRepoId = req.params.repoId;
 
-        if(queryRepoId==null)
+        if(req.params.repoId ==null)
         {
             return res.status(400).send({"mensagem":"O campo id é obrigatório!"});
         }
@@ -59,7 +57,6 @@ const repositoriosServicos = {
                 else{
                     let responseOwner = repoId.map( async (repo) => {
                         let actorOwner = await actor.findById(repo.owner);
-                        console.log(actorOwner)
                         return {
                             "id": repo.id,
                             "assignable_users": repo.assignable_users,
